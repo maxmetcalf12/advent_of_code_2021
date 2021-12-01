@@ -4,11 +4,8 @@ depths = f.read.split("\n").map(&:to_i)
 
 count = 0
 
-depths.each_with_index do |depth, i|
-  p depth
-  next if i == 0
-
-  count += 1 if depth > depths[i-1]
+(1...depths.length).each do |i|
+  count += 1 if depths[i] > depths[i-1]
 end
 
 p count
