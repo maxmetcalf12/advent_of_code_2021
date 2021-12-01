@@ -1,4 +1,5 @@
 # Advent of Code -- 2021
+My first year doing advent of code.
 
 ## Daily results
 1. Sonar Sweep
