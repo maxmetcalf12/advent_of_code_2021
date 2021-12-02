@@ -1,23 +1,28 @@
 files = ['./02/test_data.txt', './02/data.txt']
 
 files.each do |file_name|
-  f = File.open(file_name)
+  file = File.open(file_name)
+  d = file.read.split("\n")
 
-  data = f.read.split("\n")
-  horizontal = 0
-  vertical = 0
+  # VARIABLES
+  dep = 0
+  hor = 0
   aim = 0
-  (0...data.length).each do |i|
-    direction, amount = data[i].split(' ')
-    if direction == 'forward'
-      horizontal += amount.to_i
-      vertical += amount.to_i * aim
-    elsif direction == 'down'
-      aim += amount.to_i
-    elsif direction == 'up'
-      aim -= amount.to_i
+
+  # LOOP THROUGH DATA
+  d.each_with_index do |row, i|
+    dir, dist = row.split(' ')
+    case dir
+    when 'forward'
+      hor += dist.to_i
+      dep += aim * dist.to_i
+    when 'down'
+      aim += dist.to_i
+    when 'up'
+      aim -= dist.to_i
     end
   end
 
-  p horizontal * vertical
+  # PRINT RESULT
+  p dep * hor
 end
