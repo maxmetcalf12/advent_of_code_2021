@@ -8,25 +8,19 @@ files.each do |file_name|
   gamma = []
   eps = []
 
-  ones = []
-  zeros = []
-
   # LOOP THROUGH DATA
-  d.each_with_index do |row, i|
-    (0...row.length).each do |num|
-      ones[num] ||= 0
-      zeros[num] ||= 0
+  (0...d[0].length).each do |i|
+    ones = d.select{ |row| row[i] == '1'}.length
+    zeros = d.select{ |row| row[i] == '0'}.length
 
-      ones[num] += 1 if row[num] == '1'
-      zeros[num] += 1 if row[num] == '0'
+    if ones >= zeros
+      gamma << '1'
+      eps << '0'
+    else
+      gamma << '0'
+      eps << '1'
     end
   end
-
-  (0...ones.length).each do |i|
-    gamma[i] = ones[i] >= zeros[i] ? '1' : '0'
-    eps[i] = ones[i] < zeros[i] ? '1' : '0'
-  end
-  
 
   # PRINT RESULT
   p gamma.join('').to_i(2) * eps.join('').to_i(2)
