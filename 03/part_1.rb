@@ -5,14 +5,29 @@ files.each do |file_name|
   d = file.read.split("\n")
 
   # VARIABLES
-  foo = 0
-  bar = 0
+  gamma = []
+  eps = []
+
+  ones = []
+  zeros = []
 
   # LOOP THROUGH DATA
   d.each_with_index do |row, i|
-    
+    (0...row.length).each do |num|
+      ones[num] ||= 0
+      zeros[num] ||= 0
+
+      ones[num] += 1 if row[num] == '1'
+      zeros[num] += 1 if row[num] == '0'
+    end
   end
 
+  (0...ones.length).each do |i|
+    gamma[i] = ones[i] >= zeros[i] ? '1' : '0'
+    eps[i] = ones[i] < zeros[i] ? '1' : '0'
+  end
+  
+
   # PRINT RESULT
-  p foo
+  p gamma.join('').to_i(2) * eps.join('').to_i(2)
 end
