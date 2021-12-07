@@ -1,28 +1,78 @@
-files = ['./04/test_data.txt']
+require 'byebug'
+
+files = ['./04/data.txt']
 # files = ['./04/test_data.txt', './04/data.txt']
+
+class Board
+  attr_accessor :grid
+
+  def initialize(grid)
+    @grid = grid
+  end
+
+  def mark_number(number)
+    @grid = grid.map do |row|
+      row = row.map{ |x| x == number ? 'X' : x }
+    end
+
+    grid
+  end
+
+  def check_for_bingo
+    grid.each_with_index do |row, i|
+      bingo = row.all? { |col| col == 'X' }
+      return ["ROW", i] if bingo
+    end
+
+    (0..grid.length).each do |col|
+      bingo = grid.all? { |row| row[col] == 'X' }
+      return ["COL", col] if bingo
+    end
+
+    false
+  end
+
+  def current_sum
+    total = 0
+
+    grid.each do |row|
+      row.each do |x|
+        total += x.to_i if x != 'X'
+      end
+    end
+
+    total
+  end
+
+end
+
 
 files.each do |file_name|
   file = File.open(file_name)
   d = file.read.split("\n")
 
   # VARIABLES
-  gamma = []
-  eps = []
+  numbers = d[0].split(',')
+  number_of_boards = d.length / 6
+  boards = []
 
-  # LOOP THROUGH DATA
-  (0...d[0].length).each do |i|
-    ones = d.select{ |row| row[i] == '1'}.length
-    zeros = d.select{ |row| row[i] == '0'}.length
-
-    if ones >= zeros
-      gamma << '1'
-      eps << '0'
-    else
-      gamma << '0'
-      eps << '1'
-    end
+  (0...number_of_boards).each do |i|
+    boards << Board.new(d[i*6+2..i*6+6].map { |x| x.split(' ') })
   end
 
-  # PRINT RESULT
-  p gamma.join('').to_i(2) * eps.join('').to_i(2)
+  boards_to_skip = []
+
+  numbers.each do |i|
+    boards.each_with_index do |board, j|
+      next if boards_to_skip.include?(board)
+
+      board.mark_number(i)
+      if board.check_for_bingo
+        boards_to_skip << board
+        if boards.length == boards_to_skip.length
+          p board.current_sum * i.to_i
+        end
+      end
+    end
+  end
 end
