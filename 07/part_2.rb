@@ -5,11 +5,7 @@ files = ['./07/test_data.txt', './07/data.txt']
 
 def calculate_fuel(change)
   return 0 if change == 0
-  total = 0
-
-  (1..change).each do |i|
-    total += i
-  end
+  total = (1..change).sum
 
   total
 end
