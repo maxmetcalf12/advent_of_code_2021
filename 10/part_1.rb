@@ -3,25 +3,37 @@ require 'byebug'
 files = ['./10/test_data.txt']
 files = ['./10/test_data.txt', './10/data.txt']
 
+pars = {
+  ')': '(',
+  ']': '[',
+  '}': '{',
+  '>': '<',
+}
+
+error_vals = {
+  ')': 3,
+  ']': 57,
+  '}': 1197,
+  '>': 25137,
+}
+
 files.each do |file_name|
   file = File.open(file_name)
   d = file.read.split("\n").map{ |row| row.chars }
   
   # VARIABLES
-  lows = 0
+  stack = []
+  errors = 0
 
-  (0...d.length).each do |i|
-    (0...d[0].length).each do |j|
-      left = j != 0 ? d[i][j-1] : nil
-      right = j != d[0].length - 1 ? d[i][j+1] : nil
-      down = i != 0 ? d[i-1][j] : nil
-      up = i != d.length - 1 ? d[i+1][j] : nil
-      
-      if [left, right, up, down].compact.min > d[i][j]
-        lows += d[i][j].to_i + 1
+  d.each do |row|
+    row.each do |x|
+      if pars.values.include?(x)
+        stack << x
+      else
+        errors += error_vals[x.to_sym] if stack.pop != pars[x.to_sym]
       end
     end
   end
 
-  p lows
+  p errors
 end

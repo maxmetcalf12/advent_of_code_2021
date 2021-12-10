@@ -3,25 +3,70 @@ require 'byebug'
 files = ['./10/test_data.txt']
 files = ['./10/test_data.txt', './10/data.txt']
 
+pars = {
+  ')': '(',
+  ']': '[',
+  '}': '{',
+  '>': '<',
+}
+
+error_vals = {
+  ')': 3,
+  ']': 57,
+  '}': 1197,
+  '>': 25137,
+}
+
+def add_to_score(score, par)
+  if par == '['
+    return score * 5 + 2
+  elsif par == '('
+    return score * 5 + 1
+  elsif par == '{'
+    return score * 5 + 3
+  else
+    return score * 5 + 4
+  end
+end
+
 files.each do |file_name|
   file = File.open(file_name)
   d = file.read.split("\n").map{ |row| row.chars }
   
   # VARIABLES
-  lows = 0
-
-  (0...d.length).each do |i|
-    (0...d[0].length).each do |j|
-      left = j != 0 ? d[i][j-1] : nil
-      right = j != d[0].length - 1 ? d[i][j+1] : nil
-      down = i != 0 ? d[i-1][j] : nil
-      up = i != d.length - 1 ? d[i+1][j] : nil
-      
-      if [left, right, up, down].compact.min > d[i][j]
-        lows += d[i][j].to_i + 1
+  scores = []
+  
+  d.each do |row|
+    score = 0
+    stack = []
+    begin
+      row.each do |x|
+        if pars.values.include?(x)
+          stack << x
+        else
+          if stack.pop != pars[x.to_sym]
+            stack = []
+            raise
+          end
+        end
       end
+      stack = []
+      row.each do |x|
+        if pars.values.include?(x)
+          stack << x
+        else
+          stack.pop
+        end
+      end
+      stack.reverse_each do |x|
+        score = add_to_score(score, x)
+      end
+      scores << score
+    rescue
+      p "CORRUPT"
     end
   end
 
-  p lows
+  scores.sort!
+  p (scores[(scores.length - 1) / 2] + scores[scores.length / 2]) / 2.0
 end
