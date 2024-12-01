@@ -1,0 +1,111 @@
+# Docs: http://rubocop.readthedocs.io/en/latest/
+inherit_from: .rubocop_ignore.yml
+
+AllCops:
+  NewCops: enable
+
+## Cops modified from traditional ruby style guide
+Layout/BlockAlignment:
+  EnforcedStyleAlignWith: start_of_block
+Layout/DefEndAlignment:
+  EnforcedStyleAlignWith: def
+  AutoCorrect: true
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+Layout/FirstArrayElementLineBreak:
+  Enabled: true
+Layout/FirstHashElementLineBreak:
+  Enabled: true
+Layout/IndentationConsistency:
+  EnforcedStyle: indented_internal_methods
+Layout/LineLength:
+  AutoCorrect: true
+  Max: 200
+  AllowedPatterns: ['^(\s*#)']
+Layout/MultilineArrayLineBreaks:
+  Enabled: true
+Layout/MultilineAssignmentLayout:
+  Enabled: true
+Layout/MultilineHashKeyLineBreaks:
+  Enabled: true
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Style/Alias:
+  Enabled: true
+  Description: Use alias_method instead of alias in a class or module body.
+  EnforcedStyle: prefer_alias_method
+Style/ExponentialNotation:
+  Enabled: true
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
+Style/NumericPredicate:
+  Enabled: true
+  AutoCorrect: true
+Style/RegexpLiteral:
+  Enabled: true
+  AllowInnerSlashes: true
+  Description: Ensures slashes are used for regex literals
+Style/SlicingWithRange:
+  Enabled: true
+Style/SymbolArray:
+  Enabled: true
+  EnforcedStyle: brackets
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+Style/WordArray:
+  Enabled: true
+  EnforcedStyle: brackets
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never
+
+Lint/RaiseException:
+  Enabled: true
+Lint/StructNewOverride:
+  Enabled: true
+
+#
+### DISABLED COPS
+#
+Metrics/AbcSize:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false
+Metrics/ClassLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Metrics/ModuleLength:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/NumericLiterals:
+  Enabled: false
+Style/OptionalBooleanParameter:
+  Enabled: false
+Style/NumericLiteralPrefix:
+  Enabled: false
+Style/DocumentDynamicEvalDefinition:
+  Enabled: false
+Style/NumericPredicate:
+  Enabled: false
+
+Naming/AccessorMethodName:
+  Enabled: false
+Naming/PredicateName:
+  Enabled: false
